@@ -15,6 +15,9 @@
     h2 { margin-top: 2rem; color: #315c4d; }
     .highlight { padding: 1rem 1.25rem; border-left: 4px solid #a56d43; background: white; }
     footer { padding: 1.25rem; text-align: center; color: #5b665f; }
+    .social-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; margin-top: .75rem; }
+    .social-links a { padding: .5rem .85rem; border: 1px solid #315c4d; border-radius: 999px; color: #315c4d; text-decoration: none; }
+    .social-links a:hover, .social-links a:focus-visible { color: white; background: #315c4d; }
   </style>
 </head>
 <body>
@@ -30,6 +33,14 @@
     <h2>À découvrir</h2>
     <p>Flânez dans les ruelles du centre historique, visitez le site-musée gallo-romain Vesunna et faites une pause sur les places animées. Les marchés sont aussi l’occasion de goûter aux produits emblématiques du Périgord.</p>
   </main>
-  <footer>Bienvenue à Périgueux</footer>
+  <footer>
+    <p>Bienvenue à Périgueux</p>
+    <nav aria-label="Partager Périgueux sur les réseaux sociaux" class="social-links">
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fperigueux.fr" target="_blank" rel="noopener noreferrer">Facebook</a>
+      <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fperigueux.fr&text=D%C3%A9couvrez%20P%C3%A9rigueux" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fperigueux.fr" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://api.whatsapp.com/send?text=D%C3%A9couvrez%20P%C3%A9rigueux%20%3A%20https%3A%2F%2Fperigueux.fr" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    </nav>
+  </footer>
 </body>
 </html>
