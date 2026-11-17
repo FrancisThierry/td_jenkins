@@ -20,7 +20,7 @@ pipeline {
             steps {
                 echo 'Exécution du déploiement Ansible...'
                 // Assure-toi que le chemin vers ton playbook correspond à ton organisation
-                sh 'ansible-playbook ansible/playbook.yml'
+                sh 'sudo ansible-playbook ansible/playbook.yml'
             }
         }
     }
