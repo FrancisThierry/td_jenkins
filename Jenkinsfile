@@ -9,10 +9,12 @@ pipeline {
             }
         }
 
+        
+        
         stage('Deploy with Ansible') {
             steps {
                 echo 'Exécution du déploiement Ansible...'
-                sh '/usr/bin/ansible-playbook ansible/playbook.yml'
+                sh 'sudo /usr/bin/ansible-playbook ${WORKSPACE}/ansible/playbook.yml'
             }
         }
     }
