@@ -11,8 +11,8 @@ pipeline {
 
         stage('Deploy with Ansible') {
             steps {
-                echo 'Exécution du déploiement Ansible...'
-                sh 'ansible-playbook ansible/playbook.yml'
+                echo 'Exécution du déploiement Ansible sur l''hôte...'
+                sh '/usr/bin/ansible-playbook ansible/playbook.yml'
             }
         }
     }
