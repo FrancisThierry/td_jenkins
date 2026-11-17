@@ -12,7 +12,7 @@ pipeline {
         stage('Deploy with Ansible') {
             steps {
                 echo 'Exécution du déploiement Ansible...'
-                sh 'sudo ansible-playbook ansible/playbook.yml'
+                sh 'ansible-playbook ansible/playbook.yml'
             }
         }
     }
