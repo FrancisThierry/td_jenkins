@@ -1,0 +1,70 @@
+---
+- hosts: localhost
+  connection: local
+  become: yes
+
+  vars:
+    app_dir: "/var/www/mon-site"
+    source_dir: "{{ lookup('env', 'WORKSPACE') | default('/home/thierry/projets/td_jenkins', true) }}"
+
+  tasks:
+    - name: Vérifier que le répertoire source est valide (sécurité anti-copie de /)
+      ansible.builtin.assert:
+        that:
+          - source_dir | length > 1
+          - source_dir != "/"
+        fail_msg: "Le répertoire source '{{ source_dir }}' est invalide !"
+
+    - name: Créer le répertoire de destination s'il n'existe pas
+      ansible.builtin.file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Synchroniser les fichiers du projet vers /var/www/mon-site en excluant Jenkins et Ansible
+      ansible.builtin.synchronize:
+        src: "{{ source_dir }}/"
+        dest: "{{ app_dir }}/"
+        delete: yes
+        rsync_opts:
+          - "--exclude=Jenkinsfile"
+          - "--exclude=ansible"
+          - "--exclude=.git"
+          - "--exclude=.gitignore"
+      delegate_to: "{{ inventory_hostname }}"
+
+    - name: Ajuster la propriété des fichiers pour www-data
+      ansible.builtin.file:
+        path: "{{ app_dir }}"
+        owner: www-data
+        group: www-data
+        recurse: yes
+
+    - name: Installer Node.js et npm si absents
+      ansible.builtin.apt:
+        name:
+          - nodejs
+          - npm
+        state: present
+        update_cache: no
+
+    - name: Initialiser package.json si le dépôt n'en contient pas
+      ansible.builtin.command: npm init -y
+      args:
+        chdir: "{{ app_dir }}"
+        creates: "{{ app_dir }}/package.json"
+      become: yes
+      become_user: www-data
+
+    - name: Installer les dépendances npm dans /var/www/mon-site
+      community.general.npm:
+        path: "{{ app_dir }}"
+        state: present
+      become: yes
+      become_user: www-data
+
+    - name: Confirmation du déploiement
+      ansible.builtin.debug:
+        msg: "Déploiement propre réussi de {{ source_dir }} vers {{ app_dir }} !"
